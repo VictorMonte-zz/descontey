@@ -6,6 +6,6 @@ import org.springframework.context.support.beans
 
 class BootstrapConfiguration : ApplicationContextInitializer<GenericApplicationContext> {
     override fun initialize(context: GenericApplicationContext) = beans {
-        bean { com.victormonte.catalog.infrastructure.repository.init(ref()) }
+        bean { com.victormonte.catalog.infrastructure.seeder.init(ref()) }
     }.initialize(context)
 }
