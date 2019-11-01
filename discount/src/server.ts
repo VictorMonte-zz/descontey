@@ -23,7 +23,7 @@ class App {
 
   main() {
     type ServerBuilder = discount.ServerBuilder;
-    const server = serverBuilder<ServerBuilder>('server/discount.proto', 'discount');
+    const server = serverBuilder<ServerBuilder>('src/discount.proto', 'discount');
   
     server.addDiscountService({
       get(request) {
@@ -38,4 +38,9 @@ class App {
   }
 }
 
-export default new App();
+var app = new App();
+
+app.main();
+
+process.once('SIGUSR2', () => app.closeDataBaseConnection('nodemon restart', () => process.kill(process.pid, 'SIGUSR2')));
+process.on('SIGINT', () => app.closeDataBaseConnection('execução foi interrompida', () => process.exit(0)));

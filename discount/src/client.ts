@@ -4,7 +4,7 @@ import { discount } from './grpc-namespaces';
 
 async function main() {
   type ClientFactory = discount.ClientFactory;
-  const Services = clientFactory<ClientFactory>('server/discount.proto', 'discount');
+  const Services = clientFactory<ClientFactory>('src/discount.proto', 'discount');
 
   const services = new Services('localhost:50051');
   const service = services.getDiscountService();

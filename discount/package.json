@@ -4,8 +4,8 @@
   "description": "",
   "scripts": {
     "start": "npm run grpc-namespaces",
-    "server": "ts-node server/server.ts",
-    "client": "ts-node server/client",
+    "server": "ts-node src/server.ts",
+    "client": "ts-node src/client",
     "preserver": "npm run grpc-namespaces",
     "preclient": "npm run grpc-namespaces",
     "grpc-namespaces": "rxjs-grpc -o grpc-namespaces.ts *.proto"
