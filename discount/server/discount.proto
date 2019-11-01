@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package discount;
+
+service DiscountService {
+  rpc Get (GetDiscountRequest) returns (GetDiscountReply) {}
+}
+
+message GetDiscountRequest {
+  string userId = 1;
+  string productId = 2;
+}
+
+message GetDiscountReply {
+  string porcent = 1; 
+  string valueInCents = 2;
+}
