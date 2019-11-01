@@ -1,39 +1,41 @@
-import * as express from 'express';
-import * as morgan from 'morgan';
-import * as bodyParser from 'body-parser';
 import DataBase from './config/db';
+import { of } from 'rxjs';
+import { serverBuilder } from 'rxjs-grpc';
+
+import { discount } from './grpc-namespaces';
 
 class App {
-  public app: express.Application;
-  private morgan: morgan.Morgan;
-  private bodyParser;
+  
   private database: DataBase;
 
   constructor() {
-    this.app = express();
-    this.middleware();
-    this.routes();
     this.database = new DataBase();
     this.dataBaseConnection();
-  }
-
-  middleware() {
-    this.app.use(morgan('dev'));
-    this.app.use(bodyParser.json());
-    this.app.use(bodyParser.urlencoded({ extended: true }));
-  }
-
-  routes() {
-    this.app.route('/').get((req, res) => res.status(200).json({ 'message': 'Hello world!' }));
-  }
-
-  dataBaseConnection(){
+}
+  
+  dataBaseConnection() {
     this.database.createConnection();
   }
 
-  closeDataBaseConnection(message, callback){
+  closeDataBaseConnection(message, callback) {
     this.database.closeConnection(message, () => callback());
   }
 
+  main() {
+    type ServerBuilder = discount.ServerBuilder;
+    const server = serverBuilder<ServerBuilder>('server/discount.proto', 'discount');
+  
+    server.addDiscountService({
+      get(request) {
+        return of({
+          porcent: "1",
+          valueInCents: "2"
+        });
+      },
+    });
+  
+    server.start('0.0.0.0:50051');
+  }
 }
+
 export default new App();
