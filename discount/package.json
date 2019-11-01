@@ -2,19 +2,26 @@
   "name": "discount",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
   "scripts": {
-    "start": "nodemon"
+    "start": "npm run grpc-namespaces",
+    "server": "ts-node server/server.ts",
+    "client": "ts-node server/client",
+    "preserver": "npm run grpc-namespaces",
+    "preclient": "npm run grpc-namespaces",
+    "grpc-namespaces": "rxjs-grpc -o grpc-namespaces.ts *.proto"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@grpc/proto-loader": "^0.5.2",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "grpc": "^1.24.1",
     "mongoose": "^5.7.7",
     "morgan": "^1.9.1",
+    "rxjs": "^6.5.3",
+    "rxjs-grpc": "^0.2.4",
     "uuid": "^3.3.3"
   },
   "devDependencies": {
