@@ -17,7 +17,9 @@ Applications to provide product catalog with discounts.
 - Discount
     - ???
 
-### Stack
+```
+npm start
+```
 
 ### Decisions
 
