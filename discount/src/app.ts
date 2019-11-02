@@ -21,12 +21,21 @@ class App {
 
     this.dataBaseConnection();
 
+    this.seed();
+
+    this.runGrpcServer();
+
+  }
+  
+  private runGrpcServer() {
+
     this.server = serverBuilder<ServerBuilder>('src/discount.proto', 'discount');
 
     this.server.addDiscountService({
       get(request) {
-
+        
         const discountService = new DiscountService();
+
         const discount: Discount = discountService.get(request.userId, request.productId);
 
         return of({
@@ -35,12 +44,9 @@ class App {
         });
       },
     });
-
     this.server.start('0.0.0.0:50051');
-
-    this.seed();
   }
-  
+
   dataBaseConnection() {
     this.database.createConnection();
   }
@@ -60,7 +66,6 @@ class App {
     // Remove test user
     UserRepository
       .deleteMany({id: "1"})
-      .then(user => console.log("Seed user removed"))
       .catch(err => console.error(err));
 
     // Add test user
