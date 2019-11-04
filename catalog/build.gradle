@@ -1,0 +1,80 @@
+group 'com.victormonte.catalog'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'kotlin'
+apply plugin: "kotlin-spring"
+apply plugin: 'idea'
+apply plugin: 'com.google.protobuf'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+sourceCompatibility = 1.8
+
+buildscript {
+	ext.kotlin_version = '1.3.11'
+	ext.spring_boot_version = '2.1.0.RELEASE'
+
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.5'
+		classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+		classpath "org.jetbrains.kotlin:kotlin-allopen:$kotlin_version"
+		classpath "org.springframework.boot:spring-boot-gradle-plugin:$spring_boot_version"
+	}
+}
+
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+
+	compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-mongodb-reactive', version: '2.2.0.RELEASE'
+	compile group: 'org.springframework.boot', name: 'spring-boot-starter-webflux', version: '2.2.0.RELEASE'
+	compile group: 'com.fasterxml.jackson.module', name: 'jackson-module-kotlin', version: '2.10.0'
+    compile group: 'org.jetbrains.kotlin', name: 'kotlin-reflect', version: '1.3.50'
+	compile group: 'org.jetbrains.kotlinx', name: 'kotlinx-coroutines-reactor', version: '1.3.2'
+	testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.2.0.RELEASE'
+	testCompile group: 'io.projectreactor', name: 'reactor-test', version: '3.3.0.RELEASE'
+
+
+	//grpc
+	compile 'io.grpc:grpc-netty-shaded:1.17.0'
+	compile 'io.grpc:grpc-protobuf:1.17.0'
+	compile 'io.grpc:grpc-stub:1.17.0'
+
+	compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+
+	testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+
+protobuf {
+	protoc {
+		artifact = "com.google.protobuf:protoc:3.5.1-1"
+	}
+	plugins {
+		grpc {
+			artifact = 'io.grpc:protoc-gen-grpc-java:1.17.0'
+		}
+	}
+	generateProtoTasks {
+		all()*.plugins {
+			grpc {}
+		}
+	}
+}
+
+task execute(type:JavaExec) {
+	main = findProperty("mainClass")
+	classpath = sourceSets.main.runtimeClasspath
+}
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+	kotlinOptions {
+		jvmTarget = "1.8"
+	}
+}
