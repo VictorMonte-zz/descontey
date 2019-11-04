@@ -44,7 +44,10 @@ class App {
         });
       },
     });
+
     this.server.start('0.0.0.0:50051');
+
+    console.log('Discount microservice running on 0.0.0.0:50051');
   }
 
   dataBaseConnection() {
@@ -55,10 +58,6 @@ class App {
     this.database.closeConnection(message, () => callback());
   }
 
-  routes() {
-    
-  }
-
   seed() {
 
     console.log("Starting seeding...");
@@ -66,6 +65,7 @@ class App {
     // Remove test user
     UserRepository
       .deleteMany({id: "1"})
+      .then(user => console.log("Seed user removed"))
       .catch(err => console.error(err));
 
     // Add test user
