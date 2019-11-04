@@ -8,6 +8,8 @@ import org.springframework.data.mongodb.repository.config.EnableReactiveMongoRep
 @EnableReactiveMongoRepositories
 class CatalogApplication
 
-fun main(args: Array<String>) {
-	runApplication<CatalogApplication>(*args)
-}
+	fun main(args: Array<String>) {
+		runApplication<CatalogApplication>(*args)
+	}
+
+

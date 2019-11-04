@@ -12,6 +12,8 @@ internal fun init(repository: ProductRepository) = CommandLineRunner {
 
     val discount = Discount(5f, 1250)
 
+    repository.deleteAll().block()
+
     Flux.just(
             Product(UUID.randomUUID().toString(),"1", 25000, "Death Stranding", "Best Kojima Game", discount),
             Product(UUID.randomUUID().toString(), "2", 25000, "Cyberpunk 2077", "Futuristic Game", discount),
