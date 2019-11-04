@@ -1,6 +1,6 @@
-import Discount from '../discount/Discount';
-import UserModel from '../user/User';
-import ProductModel from '../product/Product';
+import Discount from '../model/Discount';
+import UserModel from '../model/User';
+import ProductModel from '../model/Product';
 
 class DiscountService {
 

@@ -1,11 +1,9 @@
 import DataBase from './config/db';
-import { of, Observable, defer, from } from 'rxjs';
+import { from } from 'rxjs';
 import { serverBuilder } from 'rxjs-grpc';
 import { discount } from './grpc-namespaces';
-import DiscountService from './modules/discount/DiscountService';
-import Discount from './modules/discount/Discount';
-import { promises } from 'dns';
-import UserModel, { User } from './modules/user/User';
+import DiscountService from './service/DiscountService';
+import UserModel from './model/User';
 
 type ServerBuilder = discount.ServerBuilder;
 
@@ -25,7 +23,7 @@ class App {
   
   private initializeGRPCServer() {
     
-    const server = serverBuilder<ServerBuilder>('discount.proto', 'discount');
+    const server = serverBuilder<ServerBuilder>('src/discount.proto', 'discount');
 
     server.addDiscountService({
       get(request) {
