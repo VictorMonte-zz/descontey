@@ -2,7 +2,7 @@ import DataBase from './config/db';
 import { from } from 'rxjs';
 import { serverBuilder } from 'rxjs-grpc';
 import { discount } from './grpc-namespaces';
-import DiscountService from './service/DiscountService';
+import DiscountService from './domain/service/DiscountService';
 import UserModel from './model/User';
 
 type ServerBuilder = discount.ServerBuilder;

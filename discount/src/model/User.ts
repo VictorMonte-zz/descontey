@@ -1,4 +1,4 @@
-import { prop, Typegoose } from 'typegoose';
+import { prop, Typegoose, instanceMethod } from 'typegoose';
 
 export class User extends Typegoose {
 
@@ -13,6 +13,13 @@ export class User extends Typegoose {
 
     @prop()
     dateOfBirth: Date;
+
+    @instanceMethod
+    isBirthday() {
+        const today = new Date();
+        return today.getDay() === this.dateOfBirth.getDay() 
+            && today.getMonth() === this.dateOfBirth.getMonth();
+    }
 }
 
 export default new User().getModelForClass(User);

@@ -1,11 +1,11 @@
-class Discount {
+import { Typegoose, prop } from 'typegoose';
+
+export class Discount extends Typegoose {
+
+    @prop()
     porcent: number;
+
+    @prop()
     valueInCents: number;
-
-    constructor(porcent: number, valueInCents: number) {
-        this.porcent = porcent;
-        this.valueInCents = valueInCents;
-    }
+    
 }
-
-export default Discount
