@@ -12,21 +12,22 @@ class DiscountService {
 
         const user = await UserModel.findOne({id: userId});
 
-        let today = new Date();
-        if(this.isUserBirthday(today, user)) {
+        if(this.isUserBirthday(user)) {
 
             const product = await ProductModel.findOne({id: productId});
+            
+            const price = (product.priceInCents / 100);
+            const porcent = 5;
+            const valueInCents = (price * ( porcent / 100 )) * 100;
 
-            let price = (product.priceInCents / 100);
-            let discountPorcent = 5;
-
-            discount = new Discount(discountPorcent, price * ( discountPorcent / 100 ));
+            discount = new Discount(porcent, valueInCents);
         }
 
         return discount;
     }
 
-    private isUserBirthday(today: Date, user) {
+    private isUserBirthday(user) {
+        let today = new Date();
         return today.getDay() === user.dateOfBirth.getDay() && today.getMonth() === user.dateOfBirth.getMonth();
     }
 }
