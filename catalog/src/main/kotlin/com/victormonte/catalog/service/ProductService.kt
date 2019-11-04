@@ -21,7 +21,7 @@ class ProductService(private val productRepository: ProductRepository,
                     Product(
                             it._id,
                             it.id,
-                            it.price_in_cents,
+                            it.priceInCents,
                             it.title,
                             it.description,
                             com.victormonte.catalog.domain.Discount(discount!!.porcent, discount.valueInCents))
