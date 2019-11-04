@@ -1,29 +1,33 @@
-import UserRepository from '../user/UserRepository';
-import ProductRepository from '../product/ProductRepository';
 import Discount from '../discount/Discount';
+import UserModel from '../user/User';
+import ProductModel from '../product/Product';
 
 class DiscountService {
 
-    public get(userId: String, productId: String) : Discount {
-        
-        console.log(userId);
-        console.log(productId);
+    public async get(userId: String, productId: String): Promise<Discount> {
 
-        UserRepository
-            .find({id: userId})
-            .then(user => {
+        console.log('Requesting discount for user ' + userId + ' and product ' + productId);
 
-                ProductRepository
-                    .find({id: productId})
-                    .then(product => {
-                        
-                        console.log(user);
-                        console.log(product);
+        var discount = new Discount(0, 0);
 
-                    });
-            });
-            
-        return new Discount(0, 0);
+        const user = await UserModel.findOne({id: userId});
+
+        let today = new Date();
+        if(this.isUserBirthday(today, user)) {
+
+            const product = await ProductModel.findOne({id: productId});
+
+            let price = (product.priceInCents / 100);
+            let discountPorcent = 5;
+
+            discount = new Discount(discountPorcent, price * ( discountPorcent / 100 ));
+        }
+
+        return discount;
+    }
+
+    private isUserBirthday(today: Date, user) {
+        return today.getDay() === user.dateOfBirth.getDay() && today.getMonth() === user.dateOfBirth.getMonth();
     }
 }
 

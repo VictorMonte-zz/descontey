@@ -4,7 +4,7 @@ import { serverBuilder } from 'rxjs-grpc';
 import { discount } from './grpc-namespaces';
 import DiscountService from './modules/discount/DiscountService';
 import Discount from './modules/discount/Discount';
-import UserRepository from './modules/user/UserRepository';
+import { promises } from 'dns';
 
 type ServerBuilder = discount.ServerBuilder;
 
@@ -28,19 +28,21 @@ class App {
   }
   
   private runGrpcServer() {
-
-    this.server = serverBuilder<ServerBuilder>('src/discount.proto', 'discount');
+    
+    this.server = serverBuilder<ServerBuilder>('discount.proto', 'discount');
 
     this.server.addDiscountService({
       get(request) {
         
         const discountService = new DiscountService();
 
-        const discount: Discount = discountService.get(request.userId, request.productId);
+        const discount = await discountService.get(request.userId, request.productId);
+
+        console.log("Response from GRPC server " + discount.valueInCents);
 
         return of({
           porcent: discount.porcent,
-          valueInCents: discount.valuesInCents
+          valueInCents: discount.valueInCents
         });
       },
     });
@@ -63,16 +65,16 @@ class App {
     console.log("Starting seeding...");
 
     // Remove test user
-    UserRepository
-      .deleteMany({id: "1"})
-      .then(user => console.log("Seed user removed"))
-      .catch(err => console.error(err));
+    // UserRepository
+    //   .deleteMany({id: "1"})
+    //   .then(user => console.log("Seed user removed"))
+    //   .catch(err => console.error(err));
 
-    // Add test user
-    UserRepository
-      .create({id: '1', firstName: 'Victor', lastName: 'Monte', dateOfBirth: new Date()})
-      .then(user => console.log("Seed user created"))
-      .catch(err => console.error(err));
+    // // Add test user
+    // UserRepository
+    //   .create({id: '1', firstName: 'Victor', lastName: 'Monte', dateOfBirth: new Date()})
+    //   .then(user => console.log("Seed user created"))
+    //   .catch(err => console.error(err));
   }
 }
 

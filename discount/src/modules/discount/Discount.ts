@@ -1,11 +1,11 @@
 class Discount {
     porcent: number;
-    valuesInCents: number;
+    valueInCents: number;
 
-    constructor(porcent: number, valuesInCents: number) {
+    constructor(porcent: number, valueInCents: number) {
         this.porcent = porcent;
-        this.valuesInCents = valuesInCents;
+        this.valueInCents = valueInCents;
     }
 }
 
-export default Discount;
+export default Discount
