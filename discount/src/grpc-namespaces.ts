@@ -48,9 +48,9 @@ export namespace discount {
     export interface GetDiscountReply {
 
         /** GetDiscountReply porcent */
-        porcent?: (string|null);
+        porcent?: (number|null);
 
         /** GetDiscountReply valueInCents */
-        valueInCents?: (string|null);
+        valueInCents?: (number|null);
     }
 }
