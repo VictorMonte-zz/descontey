@@ -1,7 +1,10 @@
-import App from './app';
+import container from "./inversify.config";
+import App from "./app";
+import { TYPES } from "./types";
 
-const app = new App();
-app.start();
+let app = container.get<App>(TYPES.App);
+
+app.boostrap();
 
 // close db connection
 process.once('SIGUSR2', () => app.closeDataBaseConnection('nodemon restart', () => process.kill(process.pid, 'SIGUSR2')));

@@ -1,18 +1,24 @@
 {
   "compilerOptions": {
-    "target": "es6",
+    "target": "es2016",
     "module": "commonjs",
     "outDir": "build",
     "rootDir": "src",
     "moduleResolution": "node",
+    "lib": [
+      "es6",
+      "dom"
+    ],
     "typeRoots": [
       "../node_modules/@types"
     ],
     "types": [
-      "node"
+      "node",
+      "reflect-metadata"
     ],
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
+    "resolveJsonModule": true,
     "sourceMap": true
   },
   "include": [

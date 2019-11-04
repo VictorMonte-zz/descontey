@@ -1,11 +1,13 @@
-import Discount from '../discount/Discount';
+import Discount from './Discount';
 import UserModel from '../../model/User';
 import ProductModel from '../../model/Product';
-import BirthdayDiscount from '../discount/BirthdayDiscount';
-import BlackfridayDiscount from '../discount/BlackfridayDiscount';
+import BirthdayDiscount from './BirthdayDiscount';
+import BlackfridayDiscount from './BlackfridayDiscount';
 import DiscountResponse from '../../response/DiscountResponse';
-import WithoutDiscount from '../discount/WithoutDiscount';
+import WithoutDiscount from './WithoutDiscount';
+import { injectable } from 'inversify';
 
+@injectable()
 class DiscountService {
 
     public async get(userId: String, productId: String): Promise<DiscountResponse> {

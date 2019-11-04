@@ -1,21 +1,25 @@
 import DataBase from './config/db';
-import { from } from 'rxjs';
 import { serverBuilder } from 'rxjs-grpc';
 import { discount } from './grpc-namespaces';
-import DiscountService from './domain/service/DiscountService';
+import DiscountService from './domain/discount/DiscountService';
 import UserModel from './model/User';
+import { injectable, inject } from 'inversify';
+import { TYPES } from './types';
+import { DiscountServiceGrpc } from './DiscountServiceGrpc';
 
 type ServerBuilder = discount.ServerBuilder;
 
+@injectable()
 class App {
-  
   private database: DataBase;
+  private discountServiceGrpc: DiscountServiceGrpc;
 
-  constructor() {
-    this.database = new DataBase();
+  constructor(@inject(TYPES.Database) database: DataBase, @inject(TYPES.DiscountServiceGrpc) discountService: DiscountServiceGrpc) {
+    this.database = database;
+    this.discountServiceGrpc = discountService;
   }
 
-  start() {
+  boostrap() {
     this.dataBaseConnection();
     this.seedDatabase();
     this.initializeGRPCServer();
@@ -25,13 +29,10 @@ class App {
     
     const server = serverBuilder<ServerBuilder>('src/discount.proto', 'discount');
 
-    server.addDiscountService({
-      get(request) {
-        const discountService = new DiscountService();
-        return from(discountService.get(request.userId, request.productId));
-      },
-    });
+    // bind services
+    server.addDiscountService(this.discountServiceGrpc);
 
+    // run
     server.start('0.0.0.0:50051');
 
     console.log('Discount microservice running on 0.0.0.0:50051');
