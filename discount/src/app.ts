@@ -36,7 +36,7 @@ class App {
         
         const discountService = new DiscountService();
 
-        const discount = await discountService.get(request.userId, request.productId);
+        const discount = discountService.get(request.userId, request.productId);
 
         console.log("Response from GRPC server " + discount.valueInCents);
 
