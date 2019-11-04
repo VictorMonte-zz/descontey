@@ -12,6 +12,6 @@ message GetDiscountRequest {
 }
 
 message GetDiscountReply {
-  string porcent = 1; 
-  string valueInCents = 2;
+  float porcent = 1; 
+  int32 valueInCents = 2;
 }
