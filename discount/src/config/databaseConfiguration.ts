@@ -1,6 +1,6 @@
 import * as mongoose from 'mongoose';
 
-class DataBase {
+class DataBaseConfiguration {
     private DB_URI = 'mongodb://127.0.0.1/descontey';
     private DB_CONNECTION;
     
@@ -26,4 +26,4 @@ class DataBase {
     }
 }
 
-export default DataBase;
+export default DataBaseConfiguration;

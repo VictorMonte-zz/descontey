@@ -1,5 +1,5 @@
 import { Typegoose, prop } from 'typegoose';
-import { Discount } from './Discount';
+import { Discount } from './discount';
 
 export class Product extends Typegoose {
 

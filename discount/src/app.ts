@@ -1,20 +1,19 @@
-import DataBase from './config/db';
+import DataBaseConfiguration from './config/databaseConfiguration';
 import { serverBuilder } from 'rxjs-grpc';
 import { discount } from './grpc-namespaces';
-import DiscountService from './domain/discount/DiscountService';
-import UserModel from './model/User';
+import User from './model/user';
 import { injectable, inject } from 'inversify';
 import { TYPES } from './types';
-import { DiscountServiceGrpc } from './DiscountServiceGrpc';
+import { DiscountServiceGrpc } from './discountServiceGrpc';
 
 type ServerBuilder = discount.ServerBuilder;
 
 @injectable()
 class App {
-  private database: DataBase;
+  private database: DataBaseConfiguration;
   private discountServiceGrpc: DiscountServiceGrpc;
 
-  constructor(@inject(TYPES.Database) database: DataBase, @inject(TYPES.DiscountServiceGrpc) discountService: DiscountServiceGrpc) {
+  constructor(@inject(TYPES.Database) database: DataBaseConfiguration, @inject(TYPES.DiscountServiceGrpc) discountService: DiscountServiceGrpc) {
     this.database = database;
     this.discountServiceGrpc = discountService;
   }
@@ -50,8 +49,8 @@ class App {
 
     console.log("Starting seeding database...");
 
-    await UserModel.findOneAndRemove({id: 1})
-    await UserModel.create({id: 1, firstName: 'Victor', lastName: 'Monte', dateOfBirth: Date()});
+    await User.findOneAndRemove({id: 1})
+    await User.create({id: 1, firstName: 'Victor', lastName: 'Monte', dateOfBirth: Date()});
 
     console.log("Seed database finised");
   }

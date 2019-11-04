@@ -1,4 +1,4 @@
-import container from "./inversify.config";
+import container from "./config/inversify.config";
 import App from "./app";
 import { TYPES } from "./types";
 

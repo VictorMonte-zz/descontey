@@ -1,10 +1,10 @@
-import Discount from './Discount';
-import UserModel from '../../model/User';
-import ProductModel from '../../model/Product';
-import BirthdayDiscount from './BirthdayDiscount';
-import BlackfridayDiscount from './BlackfridayDiscount';
-import DiscountResponse from '../../response/DiscountResponse';
-import WithoutDiscount from './WithoutDiscount';
+import Discount from './discount';
+import User from '../../model/user';
+import Product from '../../model/product';
+import BirthdayDiscount from './birthdayDiscount';
+import BlackfridayDiscount from './blackfridayDiscount';
+import DiscountResponse from '../../response/discountResponse';
+import WithoutDiscount from './withoutDiscount';
 import { injectable } from 'inversify';
 
 @injectable()
@@ -16,15 +16,15 @@ class DiscountService {
 
         var discount = new WithoutDiscount();
 
-        const user = await UserModel.findOne({id: userId});
+        const user = await User.findOne({id: userId});
 
         if(user.isBirthday()) {
-            const product = await ProductModel.findOne({id: productId});
+            const product = await Product.findOne({id: productId});
             discount = new BirthdayDiscount(product.priceInCents);
         }
 
         if(this.isBlackfriday()) {
-            const product = await ProductModel.findOne({id: productId});
+            const product = await Product.findOne({id: productId});
             discount = new BlackfridayDiscount(product.priceInCents);
         }
 
