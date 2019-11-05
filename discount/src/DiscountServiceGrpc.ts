@@ -2,7 +2,7 @@ import { from } from 'rxjs';
 import { discount } from './grpc-namespaces';
 import DiscountService from './domain/discount/discountService';
 import { injectable, inject } from 'inversify';
-import { TYPES } from './types';
+import { TYPES } from './infrastructure/config/types';
 
 @injectable()
 export class DiscountServiceGrpc implements discount.DiscountService {

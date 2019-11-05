@@ -1,9 +1,9 @@
 import {Container} from "inversify";
-import {TYPES} from "../types";
-import DiscountService from "../domain/discount/discountService";
 import DataBaseConfiguration from "./databaseConfiguration";
-import App from "../app";
-import { DiscountServiceGrpc } from "../discountServiceGrpc";
+import App from "../../app";
+import { TYPES } from "./types";
+import DiscountService from "../../domain/discount/discountService";
+import { DiscountServiceGrpc } from "../../DiscountServiceGrpc";
 
 let container = new Container();
 

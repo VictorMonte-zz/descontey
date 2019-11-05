@@ -1,9 +1,9 @@
 import Discount from './discount';
-import User from '../../model/user';
-import Product from '../../model/product';
+import User from '../model/user';
+import Product from '../model/product';
 import BirthdayDiscount from './birthdayDiscount';
 import BlackfridayDiscount from './blackfridayDiscount';
-import DiscountResponse from '../../response/discountResponse';
+import DiscountResponse from '../../presentation/response/discountResponse';
 import WithoutDiscount from './withoutDiscount';
 import { injectable } from 'inversify';
 
