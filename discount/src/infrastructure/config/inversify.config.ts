@@ -3,7 +3,7 @@ import DataBaseConfiguration from "./databaseConfiguration";
 import App from "../../app";
 import { TYPES } from "./types";
 import DiscountService from "../../domain/discount/discountService";
-import { DiscountServiceGrpc } from "../../DiscountServiceGrpc";
+import { DiscountServiceGrpc } from "../../presentation/grpc/discountServiceGrpc";
 
 let container = new Container();
 

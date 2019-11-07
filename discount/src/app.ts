@@ -1,10 +1,10 @@
 import DataBaseConfiguration from './infrastructure/config/databaseConfiguration';
 import { serverBuilder } from 'rxjs-grpc';
-import { discount } from './grpc-namespaces';
+import { discount } from './presentation/grpc/grpc-namespaces';
 import User from './domain/model/user';
 import { injectable, inject } from 'inversify';
 import { TYPES } from './infrastructure/config/types';
-import { DiscountServiceGrpc } from './discountServiceGrpc';
+import { DiscountServiceGrpc } from './presentation/grpc/discountServiceGrpc';
 
 type ServerBuilder = discount.ServerBuilder;
 
