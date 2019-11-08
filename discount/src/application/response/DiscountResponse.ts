@@ -1,4 +1,4 @@
-import Discount from "../../domain/discount/discount";
+import Discount from "../../domain/discount/Discount";
 
 class DiscountResponse {
     porcent: number;

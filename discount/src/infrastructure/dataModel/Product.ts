@@ -1,5 +1,6 @@
 import { Typegoose, prop } from 'typegoose';
-import { Discount } from './discount';
+import { Discount } from './Discount';
+import User from './user';
 
 export class Product extends Typegoose {
 
@@ -20,4 +21,4 @@ export class Product extends Typegoose {
 
 }
 
-export default new Product().getModelForClass(Product);
+export default new Product().getModelForClass(User);

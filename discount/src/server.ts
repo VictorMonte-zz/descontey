@@ -1,6 +1,6 @@
-import container from "./infrastructure/config/inversify.config";
+import container from "./infrastructure/config/Inversify.config";
 import App from "./app";
-import { TYPES } from "./infrastructure/config/types";
+import { TYPES } from "./infrastructure/config/Types";
 
 let app = container.get<App>(TYPES.App);
 

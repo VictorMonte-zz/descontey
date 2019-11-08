@@ -1,8 +1,9 @@
 import { from } from 'rxjs';
 import { discount } from './grpc-namespaces';
 import { injectable, inject } from 'inversify';
-import DiscountService from '../../domain/discount/discountService';
-import { TYPES } from '../../infrastructure/config/types';
+import DiscountService from '../../application/service/DiscountService';
+import { TYPES } from '../../infrastructure/config/Types';
+import GetDiscountCommand from '../../application/command/GetDiscountCommand';
 
 @injectable()
 export class DiscountServiceGrpc implements discount.DiscountService {
@@ -15,6 +16,7 @@ export class DiscountServiceGrpc implements discount.DiscountService {
   }
   
   get(request: discount.GetDiscountRequest, metadata?: import("grpc").Metadata): import("rxjs").Observable<discount.GetDiscountReply> {
-    return from(this.discountService.get(request.userId, request.productId));
+    let command = new GetDiscountCommand(request.userId, request.productId)
+    return from(this.discountService.get(command));
   }
 }
