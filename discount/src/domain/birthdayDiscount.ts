@@ -1,4 +1,4 @@
-import { Discount } from "./Discount";
+import { Discount } from "./discount";
 
 class BirthdayDiscount extends Discount {
     constructor(price: number) {
