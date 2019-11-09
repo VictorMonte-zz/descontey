@@ -26,11 +26,13 @@ export class DiscountController implements OnModuleInit {
     onModuleInit() { }
 
     @GrpcMethod('DiscountService', 'Get')
-    Get(request: GetDiscountRequest): GetDiscountReply {
+    async Get(request: GetDiscountRequest): Promise<GetDiscountReply> {
 
-        let command = new GetDiscountQuery(request.userId, request.productId);
-        this.getDiscountService.get(command);
+        const command = new GetDiscountQuery(request.userId, request.productId);
+        const result =  await this.getDiscountService.get(command);
 
-        return { porcent: 1, valueInCents: 1 };
+        console.log(result);
+
+        return { porcent: result.porcent, valueInCents: result.valueInCents };
     }
 }
