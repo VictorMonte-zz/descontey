@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { Transport } from '@nestjs/common/enums/transport.enum';
 import { join } from 'path';
-import { DiscountModule } from './discount/discount.module';
+import { DiscountModule } from './infrastructure/module/discount.module';
 
 async function bootstrap() {
   const app = await NestFactory.createMicroservice(DiscountModule, {
