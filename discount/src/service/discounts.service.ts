@@ -1,10 +1,10 @@
 import { Model } from 'mongoose';
 import { Injectable, Inject } from '@nestjs/common';
 import { User, Product } from 'src/interface/user';
-import { GetDiscountDto } from 'src/dto/get-discount';
+import { GetDiscountQuery } from 'src/query/getDiscountQuery';
 
 @Injectable()
-export class DiscountService {
+export class GetDiscountService {
   constructor(
     @Inject('USER_MODEL')
     private readonly userModel: Model<User>,
@@ -12,7 +12,7 @@ export class DiscountService {
     private readonly productModel: Model<Product>
   ) {}
 
-  async get(getDiscountDto: GetDiscountDto) {
+  async get(getDiscountDto: GetDiscountQuery) {
 
     let user = await this.userModel.find({id: getDiscountDto.getUserId()}).exec();
     console.log(user);

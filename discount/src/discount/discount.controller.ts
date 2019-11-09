@@ -1,7 +1,8 @@
-import { Controller, OnModuleInit, Get } from "@nestjs/common";
-import { GrpcMethod, Client, ClientGrpc } from "@nestjs/microservices";
+import { Controller, OnModuleInit } from "@nestjs/common";
+import { GrpcMethod } from "@nestjs/microservices";
 import { Observable } from "rxjs";
-import { grpcClientOptions } from '../grpc-client-options';
+import { GetDiscountService } from "src/service/discounts.service";
+import { GetDiscountQuery as GetDiscountQuery } from "src/query/getDiscountQuery";
 
 export interface DiscountService {
     get(data: { userId: number, productId: number }): Observable<any>;
@@ -20,12 +21,16 @@ export interface GetDiscountReply {
 @Controller()
 export class DiscountController implements OnModuleInit {
     
-    onModuleInit() {
-        
-    }
+    constructor(private readonly getDiscountService: GetDiscountService){ }
+
+    onModuleInit() { }
 
     @GrpcMethod('DiscountService', 'Get')
-    Get(data: GetDiscountRequest): GetDiscountReply {
+    Get(request: GetDiscountRequest): GetDiscountReply {
+
+        let command = new GetDiscountQuery(request.userId, request.productId);
+        this.getDiscountService.get(command);
+
         return { porcent: 1, valueInCents: 1 };
     }
 }
