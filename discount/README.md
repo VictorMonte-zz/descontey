@@ -16,5 +16,5 @@ npm run build
 ```
 
 ```
-npm run server
+npm run start
 ```
