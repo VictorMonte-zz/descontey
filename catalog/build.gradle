@@ -7,6 +7,7 @@ apply plugin: 'idea'
 apply plugin: 'com.google.protobuf'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
+apply plugin: 'docker'
 
 sourceCompatibility = 1.8
 
@@ -22,6 +23,10 @@ buildscript {
 		classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 		classpath "org.jetbrains.kotlin:kotlin-allopen:$kotlin_version"
 		classpath "org.springframework.boot:spring-boot-gradle-plugin:$spring_boot_version"
+		// add docker dependency
+		classpath "org.springframework.boot:spring-boot-gradle-plugin:2.0.3.RELEASE"
+		// using Gradle you need to add a new docker plugin like this:
+		classpath 'se.transmode.gradle:gradle-docker:1.2'
 	}
 }
 
@@ -40,6 +45,11 @@ dependencies {
 	testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.2.0.RELEASE'
 	testCompile group: 'io.projectreactor', name: 'reactor-test', version: '3.3.0.RELEASE'
 
+	//docker
+	compile group: 'org.springframework.boot', name: 'spring-boot-gradle-plugin', version: '2.0.3.RELEASE'
+	compile  group: 'se.transmode.gradle', name: 'gradle-docker', version: '1.2'
+
+	//hystrix
 	compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-hystrix', version: '2.1.3.RELEASE'
 
 	//grpc
@@ -77,5 +87,18 @@ task execute(type:JavaExec) {
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
 	kotlinOptions {
 		jvmTarget = "1.8"
+	}
+}
+
+// write this docker build task, this will run just after "./gradlew build" command
+task buildDocker(type: Docker, dependsOn: build) {
+	push = true
+	applicationName = bootJar.baseName
+	dockerfile = file('Dockerfile')
+	doFirst {
+		copy {
+			from jar
+			into stageDir
+		}
 	}
 }

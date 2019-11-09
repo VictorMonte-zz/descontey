@@ -19,6 +19,18 @@ services:
     networks:
       - mongo-compose-network
 
+  catalog:
+    build: catalog/.
+    container_name: catalog
+    ports:
+      - 8080:8080
+    depends_on:
+      - mongo
+    links:
+      - mongo
+    networks:
+      - mongo-compose-network
+
 networks: 
     mongo-compose-network:
       driver: bridge
