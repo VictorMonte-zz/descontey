@@ -1,5 +1,6 @@
 package com.victormonte.catalog.service
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand
 import com.victormonte.catalog.domain.Product
 import com.victormonte.catalog.infrastructure.repository.ProductRepository
 import discount.Discount
@@ -33,6 +34,7 @@ class ProductService(private val productRepository: ProductRepository,
 @Service
 class DiscountService {
 
+    @HystrixCommand(fallbackMethod = "getDefaultDiscount")
     fun get(userId: String, productId: String): Discount.GetDiscountReply? {
 
         val channel = ManagedChannelBuilder.forAddress("127.0.0.1", 5500)
@@ -48,5 +50,14 @@ class DiscountService {
                 .build()
 
         return discountServiceGrpc.get(request)
+    }
+
+    fun getDefaultDiscount(userId: String, productId: String): Discount.GetDiscountReply? {
+    return Discount
+                .GetDiscountReply
+                .newBuilder()
+                .setPorcent(0f)
+                .setValueInCents(0)
+                .build()
     }
 }
