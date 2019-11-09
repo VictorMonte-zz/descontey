@@ -13,7 +13,9 @@ class App {
   private database: DataBaseConfiguration;
   private discountServiceGrpc: DiscountServiceGrpc;
 
-  constructor(@inject(TYPES.Database) database: DataBaseConfiguration, @inject(TYPES.DiscountServiceGrpc) discountService: DiscountServiceGrpc) {
+  constructor(
+      @inject(TYPES.Database) database: DataBaseConfiguration, 
+      @inject(TYPES.DiscountServiceGrpc) discountService: DiscountServiceGrpc) {
     this.database = database;
     this.discountServiceGrpc = discountService;
   }
