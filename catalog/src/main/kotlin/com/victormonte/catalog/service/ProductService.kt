@@ -35,7 +35,7 @@ class DiscountService {
 
     fun get(userId: String, productId: String): Discount.GetDiscountReply? {
 
-        val channel = ManagedChannelBuilder.forAddress("127.0.0.1", 50051)
+        val channel = ManagedChannelBuilder.forAddress("127.0.0.1", 5500)
                 .usePlaintext()
                 .build()
 

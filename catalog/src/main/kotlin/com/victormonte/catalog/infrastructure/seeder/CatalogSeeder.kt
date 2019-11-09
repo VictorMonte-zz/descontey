@@ -16,8 +16,8 @@ internal fun init(repository: ProductRepository) = CommandLineRunner {
 
     Flux.just(
             Product(UUID.randomUUID().toString(),"1", 25000, "Death Stranding", "Best Kojima Game", discount),
-            Product(UUID.randomUUID().toString(), "2", 25000, "Cyberpunk 2077", "Futuristic Game", discount),
-            Product(UUID.randomUUID().toString(), "3", 25000, "Ghost of Tsushima", "Samurai Game - Hard Core", discount)
+            Product(UUID.randomUUID().toString(), "2", 10000, "Cyberpunk 2077", "Futuristic Game", discount),
+            Product(UUID.randomUUID().toString(), "3", 9000, "Ghost of Tsushima", "Samurai Game - Hard Core", discount)
     ).flatMap { repository.save(it) }
             .thenMany(repository.findAll())
             .subscribe { println(it) }

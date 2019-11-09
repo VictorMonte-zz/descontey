@@ -2,10 +2,10 @@ import { Model } from 'mongoose';
 import { Injectable, Inject } from '@nestjs/common';
 import { User, Product } from 'src/domain/interface/user';
 import { GetDiscountQuery } from 'src/application/query/getDiscountQuery';
-import Discount from 'src/domain/discount';
-import BirthdayDiscount from 'src/domain/birthdayDiscount';
-import BlackfridayDiscount from 'src/domain/blackfridayDiscount';
-import GetDiscountResponse from 'src/application/response/getDiscountResponse';
+import { Discount } from '../../domain/discount';
+import GetDiscountResponse from '../response/getDiscountResponse';
+import BirthdayDiscount from '../../domain/birthdayDiscount';
+import BlackfridayDiscount from '../../domain/blackfridayDiscount';
 
 @Injectable()
 export class GetDiscountService {
