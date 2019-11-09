@@ -4,11 +4,9 @@ Reactive Microservices to get products with discounts.
 
 ## Microservices
 
-About Catalot microservice: 
-[a link] [https://github.com/VictorMonte/descontey/tree/master/catalog]
+[Catalog Microservice] (https://github.com/VictorMonte/descontey/tree/master/catalog)
 
-About Discount microservice:
-[a link] [https://github.com/VictorMonte/descontey/tree/master/discount]
+[Discount Microservice] (https://github.com/VictorMonte/descontey/tree/master/discount)
 
 ### Prerequisites
 
