@@ -31,6 +31,20 @@ services:
     networks:
       - mongo-compose-network
 
+  discount:
+    build: discount/.
+    command: npm run start
+    volumes:
+      - .discount/dist:/server/dist
+    ports:
+      - 50051:50051
+    depends_on:
+      - mongo
+    links:
+      - mongo
+    networks:
+      - mongo-compose-network
+
 networks: 
     mongo-compose-network:
       driver: bridge

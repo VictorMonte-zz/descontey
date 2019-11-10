@@ -7,7 +7,7 @@ async function bootstrap() {
   const app = await NestFactory.createMicroservice(DiscountModule, {
     transport: Transport.GRPC,
     options: {
-      url: 'localhost:5500', 
+      url: '0.0.0.0:50051', 
       package: 'discount',
       protoPath: join(__dirname, 'discount/discount.proto'),
     },
