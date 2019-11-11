@@ -24,11 +24,13 @@ export class GetDiscountService {
     const user = await this.userModel.findOne({id: query.getUserId()}).exec();
 
     if(this.isBirthday(user)) {
+      console.log('User ' + user.get('id') + ' with birthday discount');
       const product = await this.productModel.findOne({ id: query.getProductId()}).exec();
       discount = new BirthdayDiscount(product.get('priceInCents'));
     }
 
     if(this.isBlackfriday()) {
+      console.log('User ' + user.get('id') + ' with blackfriday discount');
       const product = await this.productModel.findOne({id: query.getProductId()});
       discount = new BlackfridayDiscount(product.get('priceInCents'));
     }
@@ -42,8 +44,13 @@ export class GetDiscountService {
   }
 
   private isBirthday(user: User): Boolean {
+
     const today = new Date();
     const birthday = new Date(user.get('dateOfBirth'));
+
+    console.log('Is user birthday?');
+    console.log(today.getDay() === birthday.getDay() 
+    && today.getMonth() === birthday.getMonth());
 
     return today.getDay() === birthday.getDay() 
         && today.getMonth() === birthday.getMonth();

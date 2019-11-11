@@ -4,9 +4,10 @@ import { userProviders, productProvider } from 'src/infrastructure/provider/user
 import { from } from 'rxjs';
 import { GetDiscountService } from 'src/application/service/discounts.service';
 import { DatabaseModule } from 'src/infrastructure/module/database.module';
+import { SeederModule } from './seeder.module';
 
 @Module({
-  imports: [DatabaseModule],
+  imports: [DatabaseModule, SeederModule],
   controllers: [DiscountController],
   providers: [
     GetDiscountService,
