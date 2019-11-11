@@ -11,11 +11,9 @@ import BlackfridayDiscount from '../../domain/blackfridayDiscount';
 export class GetDiscountService {
   
   constructor(
-    @Inject('USER_MODEL')
-    private readonly userModel: Model<User>,
-    @Inject('PRODUCT_MODEL')
-    private readonly productModel: Model<Product>
-  ) {}
+    @Inject('USER_MODEL') private readonly userModel: Model<User>, 
+    @Inject('PRODUCT_MODEL') private readonly productModel: Model<Product>) {
+  }
 
   async get(query: GetDiscountQuery): Promise<GetDiscountResponse> {
 
@@ -44,14 +42,9 @@ export class GetDiscountService {
   }
 
   private isBirthday(user: User): Boolean {
-
     const today = new Date();
     const birthday = new Date(user.get('dateOfBirth'));
-
-    console.log('Is user birthday?');
-    console.log(today.getDay() === birthday.getDay() 
-    && today.getMonth() === birthday.getMonth());
-
+    
     return today.getDay() === birthday.getDay() 
         && today.getMonth() === birthday.getMonth();
   }
