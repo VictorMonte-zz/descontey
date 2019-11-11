@@ -37,7 +37,7 @@ class DiscountService {
     @HystrixCommand(fallbackMethod = "getDefaultDiscount")
     fun get(userId: String, productId: String): Discount.GetDiscountReply? {
 
-        val channel = ManagedChannelBuilder.forAddress("127.0.0.1", 50051)
+        val channel = ManagedChannelBuilder.forAddress("discount", 50051)
                 .usePlaintext()
                 .build()
 
