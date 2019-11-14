@@ -1,18 +1,19 @@
 import { Model } from 'mongoose';
 import { Injectable, Inject } from '@nestjs/common';
-import { User, Product } from 'src/domain/interface/user';
-import { GetDiscountQuery } from 'src/application/query/getDiscountQuery';
+import { User, Product } from '../../domain/interface/user';
+import { GetDiscountQuery } from '../../application/query/getDiscountQuery';
 import { Discount } from '../../domain/discount';
 import GetDiscountResponse from '../response/getDiscountResponse';
 import BirthdayDiscount from '../../domain/birthdayDiscount';
 import BlackfridayDiscount from '../../domain/blackfridayDiscount';
+import { InjectModel } from '@nestjs/mongoose';
 
 @Injectable()
 export class GetDiscountService {
   
   constructor(
-    @Inject('USER_MODEL') private readonly userModel: Model<User>, 
-    @Inject('PRODUCT_MODEL') private readonly productModel: Model<Product>) {
+    @InjectModel('USER_MODEL') private readonly userModel: Model<User>, 
+    @InjectModel('PRODUCT_MODEL') private readonly productModel: Model<Product>) {
   }
 
   async get(query: GetDiscountQuery): Promise<GetDiscountResponse> {

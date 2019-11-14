@@ -1,8 +1,8 @@
 import { Controller, OnModuleInit } from "@nestjs/common";
 import { GrpcMethod } from "@nestjs/microservices";
 import { Observable } from "rxjs";
-import { GetDiscountQuery as GetDiscountQuery } from "src/application/query/getDiscountQuery";
-import { GetDiscountService } from "src/application/service/discounts.service";
+import { GetDiscountQuery as GetDiscountQuery } from "../../application/query/getDiscountQuery";
+import { GetDiscountService } from "../../application/service/discounts.service";
 
 export interface DiscountService {
     get(data: { userId: number, productId: number }): Observable<any>;
