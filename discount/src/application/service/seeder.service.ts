@@ -1,25 +1,22 @@
-import { Inject, Injectable } from "@nestjs/common";
-
+import { Injectable } from "@nestjs/common";
 import { Model } from "mongoose";
-
 import { User } from "../../domain/interface/user";
+import { InjectModel } from "@nestjs/mongoose";
 
 @Injectable()
 export class SeederService {
 
-    constructor(@Inject('USER_MODEL') private readonly userModel: Model<User>) {
+    constructor(@InjectModel('User') private readonly userModel: Model<User>) { }
 
-    }
-
-    seed() {
+    async seed() {
 
         console.log("Seeding...");
 
-        this.userModel.findOneAndDelete({ id: '1' }).exec();
-        this.userModel.create({ id: '1', firstName: 'John', lastName: 'Wick', dateOfBirth: new Date() });
+        await this.userModel.findOneAndDelete({ id: '1' }).exec();
+        await this.userModel.create({ id: '1', firstName: 'John', lastName: 'Wick', dateOfBirth: new Date() });
         
-        this.userModel.findOneAndDelete({ id: '2' }).exec();
-        this.userModel.create({ id: '2', firstName: 'Bruce', lastName: 'Wayne', dateOfBirth: new Date('1980-11-16T00:00:00') });
+        await this.userModel.findOneAndDelete({ id: '2' }).exec();
+        await this.userModel.create({ id: '2', firstName: 'Bruce', lastName: 'Wayne', dateOfBirth: new Date('1980-11-16T00:00:00') });
 
         console.log("Finish seeding");
     }

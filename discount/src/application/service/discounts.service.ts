@@ -1,6 +1,7 @@
 import { Model } from 'mongoose';
 import { Injectable, Inject } from '@nestjs/common';
-import { User, Product } from '../../domain/interface/user';
+import { User } from '../../domain/interface/user';
+import { Product } from "../../domain/interface/product";
 import { GetDiscountQuery } from '../../application/query/getDiscountQuery';
 import { Discount } from '../../domain/discount';
 import GetDiscountResponse from '../response/getDiscountResponse';
@@ -12,15 +13,15 @@ import { InjectModel } from '@nestjs/mongoose';
 export class GetDiscountService {
   
   constructor(
-    @InjectModel('USER_MODEL') private readonly userModel: Model<User>, 
-    @InjectModel('PRODUCT_MODEL') private readonly productModel: Model<Product>) {
+    @InjectModel('User') private readonly userModel: Model<User>, 
+    @InjectModel('Product') private readonly productModel: Model<Product>) {
   }
 
   async get(query: GetDiscountQuery): Promise<GetDiscountResponse> {
 
     var discount = new Discount(0);
-
-    const user = await this.userModel.findOne({id: query.getUserId()}).exec();
+    
+    const user = await this.userModel.findOne({ id: query.getUserId()}).exec();
 
     if(this.isBirthday(user)) {
       console.log('User ' + user.get('id') + ' with birthday discount');

@@ -1,17 +1,17 @@
 import { NestFactory } from '@nestjs/core';
 import { Transport } from '@nestjs/common/enums/transport.enum';
 import { join } from 'path';
-import { DiscountModule } from './infrastructure/module/discount.module';
 import { SeederService } from './application/service/seeder.service';
+import { AppModule } from './infrastructure/module/app.module';
 
 async function bootstrap() {
   
-  await NestFactory.createMicroservice(DiscountModule, {
+  await NestFactory.createMicroservice(AppModule, {
     transport: Transport.GRPC,
     options: {
       url: '0.0.0.0:50051', 
       package: 'discount',
-      protoPath: join(__dirname, 'discount/discount.proto'),
+      protoPath: join(__dirname, 'proto/discount.proto'),
     },
   })
   .then(async appContext => {

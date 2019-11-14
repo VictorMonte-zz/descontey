@@ -37,11 +37,11 @@ describe('GetDiscountService', () => {
       providers: [
         GetDiscountService,
         {
-          provide: getModelToken('USER_MODEL'),
+          provide: getModelToken('User'),
           useValue: userModel,
         },
         {
-          provide: getModelToken('PRODUCT_MODEL'),
+          provide: getModelToken('Product'),
           useValue: productModel,
         },
       ],
