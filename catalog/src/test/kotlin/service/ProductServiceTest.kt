@@ -33,7 +33,7 @@ class ProductServiceTest {
     }
 
     @Test
-    fun should_ReturnDiscountPorcent_When_GetProductDiscount() {
+    fun should_ReturnExpectedPorcent_When_GetProductsDiscount() {
 
         val expectedDiscount = discount.Discount.GetDiscountReply.newBuilder().setPorcent(5f).setValueInCents(1250).build()
 
@@ -56,7 +56,7 @@ class ProductServiceTest {
     }
 
     @Test
-    fun should_ReturnValueInCentsDiscount_When_GetProductDiscount() {
+    fun should_ReturnExpectedValueInCents_When_GetProductsDiscount() {
 
         val expectedDiscount = discount.Discount.GetDiscountReply.newBuilder().setPorcent(5f).setValueInCents(1250).build()
 
@@ -79,7 +79,7 @@ class ProductServiceTest {
     }
 
     @Test
-    fun should_ReturnThreeProducts_When_GetProduct_For_User() {
+    fun should_ReturnThreeProducts_For_User() {
 
         val expectedProductCount = 3
 
