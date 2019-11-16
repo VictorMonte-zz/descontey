@@ -1,5 +1,5 @@
 import { Model } from 'mongoose';
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { User } from '../../domain/interface/user';
 import { Product } from "../../domain/interface/product";
 import { GetDiscountQuery } from '../../application/query/getDiscountQuery';
@@ -8,39 +8,38 @@ import GetDiscountResponse from '../response/getDiscountResponse';
 import BirthdayDiscount from '../../domain/birthdayDiscount';
 import BlackfridayDiscount from '../../domain/blackfridayDiscount';
 import { InjectModel } from '@nestjs/mongoose';
+import { BlackFridayService } from './blackFriday.service';
 
 @Injectable()
 export class GetDiscountService {
   
   constructor(
     @InjectModel('User') private readonly userModel: Model<User>, 
-    @InjectModel('Product') private readonly productModel: Model<Product>) {
+    @InjectModel('Product') private readonly productModel: Model<Product>,
+    private readonly blackFridayService: BlackFridayService) {
   }
 
   async get(query: GetDiscountQuery): Promise<GetDiscountResponse> {
 
     var discount = new Discount(0);
-    
+
+    //TODO: should handle when not user found
     const user = await this.userModel.findOne({ id: query.getUserId()}).exec();
 
     if(this.isBirthday(user)) {
       console.log('User ' + user.get('id') + ' with birthday discount');
+      //TODO: should handle product not found
       const product = await this.productModel.findOne({ id: query.getProductId()}).exec();
       discount = new BirthdayDiscount(product.get('priceInCents'));
     }
 
-    if(this.isBlackfriday()) {
+    if(this.blackFridayService.isToday()) {
       console.log('User ' + user.get('id') + ' with blackfriday discount');
-      const product = await this.productModel.findOne({id: query.getProductId()});
+      const product = await this.productModel.findOne({id: query.getProductId()}).exec();
       discount = new BlackfridayDiscount(product.get('priceInCents'));
     }
 
     return new GetDiscountResponse(discount);
-  }
-
-  private isBlackfriday(): Boolean {
-    const today = new Date();
-    return today.getDay() === 25 && today.getMonth() === 11;
   }
 
   private isBirthday(user: User): Boolean {

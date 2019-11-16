@@ -4,6 +4,7 @@ import { GetDiscountService } from '../../application/service/discounts.service'
 import { SeederModule } from './seeder.module';
 import { UserSchema, ProductSchema } from '../schema/user.schema';
 import { MongooseModule } from '@nestjs/mongoose';
+import { BlackFridayService } from 'src/application/service/blackFriday.service';
 
 @Module({
   imports: [
@@ -12,8 +13,9 @@ import { MongooseModule } from '@nestjs/mongoose';
         { name: 'User', schema: UserSchema },
         { name: 'Product', schema: ProductSchema }
       ]), 
-    SeederModule],
+    SeederModule
+  ],
   controllers: [ DiscountController ],
-  providers: [ GetDiscountService ]
+  providers: [ BlackFridayService, GetDiscountService ]
 })
 export class DiscountModule { }

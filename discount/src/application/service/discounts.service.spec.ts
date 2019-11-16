@@ -2,17 +2,14 @@ import { Test } from '@nestjs/testing';
 import { GetDiscountService } from './discounts.service';
 import { GetDiscountQuery } from '../query/getDiscountQuery';
 import { getModelToken } from '@nestjs/mongoose';
-import { exec } from 'child_process';
 import { when } from 'jest-when'
-import BirthdayDiscount from 'src/domain/birthdayDiscount';
-
-
+import { BlackFridayService } from './blackFriday.service';
 
 describe('GetDiscountService', () => {
 
   let discountService: GetDiscountService;
-  
-  // mocks
+  let blackFridayService: BlackFridayService;
+
   const user = {
     get: jest.fn()
   }
@@ -44,10 +41,12 @@ describe('GetDiscountService', () => {
           provide: getModelToken('Product'),
           useValue: productModel,
         },
+        BlackFridayService
       ],
     }).compile();
 
     discountService = module.get<GetDiscountService>(GetDiscountService);
+    blackFridayService = module.get<BlackFridayService>(BlackFridayService);
   });
 
   describe('get birthday discount', () => {
@@ -57,17 +56,15 @@ describe('GetDiscountService', () => {
     it('should return discount porcent', async () => {
 
       const expectedPorcent = 5;
-      
-      // arrange
+
       when(user.get).calledWith('dateOfBirth').mockReturnValue(today);
       when(user.get).calledWith('id').mockReturnValue(1);
       when(product.get).calledWith('priceInCents').mockReturnValue(25000);
+      jest.spyOn(blackFridayService, 'isToday').mockImplementation(() => false);
       const query = new GetDiscountQuery('1', '2')
 
-      // act
       const result = await discountService.get(query);
 
-      // assert
       expect(result.porcent).toBe(expectedPorcent);
 
     });
@@ -76,19 +73,54 @@ describe('GetDiscountService', () => {
 
       const expectedValueInCents = 1250;
 
-      // arrange
       when(user.get).calledWith('dateOfBirth').mockReturnValue(today);
       when(user.get).calledWith('id').mockReturnValue(1);
       when(product.get).calledWith('priceInCents').mockReturnValue(25000);
+      jest.spyOn(blackFridayService, 'isToday').mockImplementation(() => false);
       const query = new GetDiscountQuery('1', '2')
 
-      // act
       const result = await discountService.get(query);
 
-      // assert
       expect(result.valueInCents).toBe(expectedValueInCents);
 
     });
-
   });
+
+  describe('get black friday discount', () => {
+
+    const today = new Date('1990-11-14');
+
+    it('should return discount porcent', async () => {
+
+      const expectedPorcent = 10;
+
+      when(user.get).calledWith('dateOfBirth').mockReturnValue(today);
+      when(user.get).calledWith('id').mockReturnValue(1);
+      when(product.get).calledWith('priceInCents').mockReturnValue(25000);
+      jest.spyOn(blackFridayService, 'isToday').mockImplementation(() => true);
+      const query = new GetDiscountQuery('1', '2')
+
+      const result = await discountService.get(query);
+
+      expect(result.porcent).toBe(expectedPorcent);
+
+    });
+
+    it('should return discount value in cents', async () => {
+
+      const expectedValueInCents = 2500;
+
+      when(user.get).calledWith('dateOfBirth').mockReturnValue(today);
+      when(user.get).calledWith('id').mockReturnValue(1);
+      when(product.get).calledWith('priceInCents').mockReturnValue(25000);
+      jest.spyOn(blackFridayService, 'isToday').mockImplementation(() => true);
+      const query = new GetDiscountQuery('1', '2')
+
+      const result = await discountService.get(query);
+
+      expect(result.valueInCents).toBe(expectedValueInCents);
+
+    });
+  });
+
 });
