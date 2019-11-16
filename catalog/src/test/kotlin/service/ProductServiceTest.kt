@@ -5,7 +5,7 @@ import com.victormonte.catalog.domain.Product
 import com.victormonte.catalog.infrastructure.repository.ProductRepository
 import com.victormonte.catalog.service.DiscountService
 import com.victormonte.catalog.service.ProductService
-import junit.framework.Assert.assertEquals
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.mockito.ArgumentMatchers
@@ -51,7 +51,7 @@ class ProductServiceTest {
 
         val result = productService.get("1").blockFirst()
 
-        assertEquals(expectedDiscount.porcent, result.discount.pct)
+        assertEquals(expectedDiscount.porcent, result?.discount?.pct)
 
     }
 
@@ -74,7 +74,7 @@ class ProductServiceTest {
 
         val result = productService.get("1").blockFirst()
 
-        assertEquals(expectedDiscount.valueInCents, result.discount.value_in_cents)
+        assertEquals(expectedDiscount.valueInCents, result?.discount?.value_in_cents)
 
     }
 
@@ -90,7 +90,7 @@ class ProductServiceTest {
 
         val result = productService.get("1")
 
-        assertEquals(expectedProductCount.toString(), result.count().block().toString())
+        assertEquals(expectedProductCount.toString(), result.count().block()?.toString())
 
     }
 

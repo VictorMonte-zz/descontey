@@ -14,7 +14,7 @@ class ProductService(private val productRepository: ProductRepository,
         return productRepository
                 .findAll()
                 .map {
-                    var discount = discountService.get(userId, it.id)
+                    val discount = discountService.get(userId, it.id)
                     Product(
                             it._id,
                             it.id,
