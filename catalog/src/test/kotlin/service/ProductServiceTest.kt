@@ -83,7 +83,7 @@ class ProductServiceTest {
 
         val expectedProductCount = 3
 
-        val products = getFakeProducts(expectedProductCount)
+        val products = createFakeProducts(expectedProductCount)
         val discount = discount.Discount.GetDiscountReply.newBuilder().setPorcent(5f).setValueInCents(1250).build()
         Mockito.`when`(productRepository.findAll()).thenReturn(Flux.fromIterable(products))
         Mockito.`when`(discountService.get(ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).thenReturn(discount)
@@ -94,7 +94,7 @@ class ProductServiceTest {
 
     }
 
-    private fun getFakeProducts(expectedProductCount: Int): ArrayList<Product> {
+    private fun createFakeProducts(expectedProductCount: Int): ArrayList<Product> {
         val products = ArrayList<Product>()
         val discountDefault = Discount(pct = 0f, value_in_cents = 0)
         for (id in 1..expectedProductCount) {
