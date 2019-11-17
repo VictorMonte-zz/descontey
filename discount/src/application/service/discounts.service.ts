@@ -1,5 +1,5 @@
 import { Model } from 'mongoose';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { User } from '../../domain/interface/user';
 import { Product } from "../../domain/interface/product";
 import { GetDiscountQuery } from '../../application/query/getDiscountQuery';
@@ -13,6 +13,8 @@ import { BlackFridayService } from './blackFriday.service';
 @Injectable()
 export class GetDiscountService {
   
+  private readonly logger = new Logger(GetDiscountService.name);
+
   constructor(
     @InjectModel('User') private readonly userModel: Model<User>, 
     @InjectModel('Product') private readonly productModel: Model<Product>,
@@ -22,19 +24,17 @@ export class GetDiscountService {
   async get(query: GetDiscountQuery): Promise<GetDiscountResponse> {
 
     var discount = new Discount(0);
-
-    //TODO: should handle when not user found
+    
     const user = await this.userModel.findOne({ id: query.getUserId()}).exec();
 
     if(this.isBirthday(user)) {
-      console.log('User ' + user.get('id') + ' with birthday discount');
-      //TODO: should handle product not found
+      this.logger.log('User ' + user.get('id') + ' with birthday discount')
       const product = await this.productModel.findOne({ id: query.getProductId()}).exec();
       discount = new BirthdayDiscount(product.get('priceInCents'));
     }
 
     if(this.blackFridayService.isToday()) {
-      console.log('User ' + user.get('id') + ' with blackfriday discount');
+      this.logger.log('User ' + user.get('id') + ' with blackfriday discount');
       const product = await this.productModel.findOne({id: query.getProductId()}).exec();
       discount = new BlackfridayDiscount(product.get('priceInCents'));
     }
