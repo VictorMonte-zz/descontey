@@ -3,12 +3,13 @@ import { Injectable, Logger } from '@nestjs/common';
 import { User } from '../../domain/interface/user';
 import { Product } from "../../domain/interface/product";
 import { GetDiscountQuery } from '../../application/query/getDiscountQuery';
-import { Discount } from '../../domain/discount';
 import GetDiscountResponse from '../response/getDiscountResponse';
-import BirthdayDiscount from '../../domain/birthdayDiscount';
-import BlackfridayDiscount from '../../domain/blackfridayDiscount';
 import { InjectModel } from '@nestjs/mongoose';
 import { BlackFridayService } from './blackFriday.service';
+import { WithoutDiscount } from '../../domain/withoutDiscount';
+import { DiscountRule } from '../rule/discountRule';
+import { BirthdayDiscountRule } from '../rule/birthdayDiscountRule';
+import { BlackFridayDiscountRule } from '../rule/blackFridayDiscountRule';
 
 @Injectable()
 export class GetDiscountService {
@@ -23,30 +24,24 @@ export class GetDiscountService {
 
   async get(query: GetDiscountQuery): Promise<GetDiscountResponse> {
 
-    var discount = new Discount(0);
-    
     const user = await this.userModel.findOne({ id: query.getUserId()}).exec();
+    const product = await this.productModel.findOne({ id: query.getProductId()}).exec();
 
-    if(this.isBirthday(user)) {
-      this.logger.log('User ' + user.get('id') + ' with birthday discount')
-      const product = await this.productModel.findOne({ id: query.getProductId()}).exec();
-      discount = new BirthdayDiscount(product.get('priceInCents'));
-    }
+    const rules: Array<DiscountRule> = new Array;
+    rules.push(new BirthdayDiscountRule(user, product));
+    rules.push(new BlackFridayDiscountRule(this.blackFridayService, product));
 
-    if(this.blackFridayService.isToday()) {
-      this.logger.log('User ' + user.get('id') + ' with blackfriday discount');
-      const product = await this.productModel.findOne({id: query.getProductId()}).exec();
-      discount = new BlackfridayDiscount(product.get('priceInCents'));
-    }
+    var discount = new WithoutDiscount();
+    rules.forEach(rule => {
+      const result = rule.calculate();
+      if(result.getPorcent() > discount.getPorcent()) {
+        discount = result;
+      }
+    });
+
+    this.logger.log("User " + user.id + " with discount " + discount.getPorcent())
 
     return new GetDiscountResponse(discount);
   }
-
-  private isBirthday(user: User): Boolean {
-    const today = new Date();
-    const birthday = new Date(user.get('dateOfBirth'));
-    
-    return today.getDay() === birthday.getDay() 
-        && today.getMonth() === birthday.getMonth();
-  }
+  
 }
