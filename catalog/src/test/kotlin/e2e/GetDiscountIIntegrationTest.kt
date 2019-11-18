@@ -1,7 +1,8 @@
-package service
+package e2e
 
 import com.victormonte.catalog.CatalogApplication
 import org.junit.Assert
+import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
@@ -15,6 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.util.LinkedMultiValueMap
 
 
+@Ignore
 @RunWith(SpringRunner::class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = [CatalogApplication::class])
 class GetDiscountIIntegrationTest {
