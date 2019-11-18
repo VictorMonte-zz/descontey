@@ -5,7 +5,6 @@ import discount.Discount
 import discount.DiscountServiceGrpc
 import io.grpc.ManagedChannelBuilder
 import org.springframework.stereotype.Service
-import java.util.concurrent.TimeUnit
 
 @Service
 class DiscountService {
@@ -31,7 +30,7 @@ class DiscountService {
             result = discountServiceGrpc.get(request)
 
         } finally {
-            channel.shutdown().awaitTermination(5, TimeUnit.SECONDS)
+            channel.shutdownNow()
         }
 
         return result
