@@ -1,8 +1,8 @@
-import { User } from '../../domain/interface/user';
-import { Product } from "../../domain/interface/product";
-import { Discount } from '../../domain/discount';
-import BirthdayDiscount from '../../domain/birthdayDiscount';
-import { WithoutDiscount } from '../../domain/withoutDiscount';
+import { User } from '../interface/user';
+import { Product } from "../interface/product";
+import { Discount } from '../discount';
+import BirthdayDiscount from '../birthdayDiscount';
+import { WithoutDiscount } from '../withoutDiscount';
 import { DiscountRule } from './discountRule';
 
 export class BirthdayDiscountRule implements DiscountRule {

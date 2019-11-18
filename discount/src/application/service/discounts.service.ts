@@ -7,9 +7,9 @@ import GetDiscountResponse from '../response/getDiscountResponse';
 import { InjectModel } from '@nestjs/mongoose';
 import { BlackFridayService } from './blackFriday.service';
 import { WithoutDiscount } from '../../domain/withoutDiscount';
-import { DiscountRule } from '../rule/discountRule';
-import { BirthdayDiscountRule } from '../rule/birthdayDiscountRule';
-import { BlackFridayDiscountRule } from '../rule/blackFridayDiscountRule';
+import { DiscountRule } from '../../domain/rule/discountRule';
+import { BirthdayDiscountRule } from '../../domain/rule/birthdayDiscountRule';
+import { BlackFridayDiscountRule } from '../../domain/rule/blackFridayDiscountRule';
 
 @Injectable()
 export class GetDiscountService {
